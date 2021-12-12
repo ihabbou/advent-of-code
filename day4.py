@@ -42,6 +42,37 @@ def bingo(bingo: list, boards: list):
 
     return
 
+# %% Day 4 part 2
+
+def last_bingo(bingo: list, boards: list):
+    bingo = np.array(bingo)
+    boards = np.array(boards)
+
+    boards = boards.reshape(-1, 5, 5)
+    marks = np.zeros(boards.shape)
+
+    def calc_bingo(board, mark, last_num):
+        board[np.where(mark == 1)] = 0
+        return board.sum() * last_num
+    
+    bingod = np.zeros(len(boards))
+    
+    for bing in bingo:
+
+        marks[np.where(boards == bing)] = 1
+        for board_idx, mark in enumerate(marks):
+            if bingod[board_idx] > 0:
+                continue
+            # bingo in mark or mark.T
+            if sum([
+                    np.array_equal(ln, np.ones(5)) +
+                    np.array_equal(lt, np.ones(5))
+                    for ln, lt in zip(mark, mark.T)
+            ]) > 0:
+                print(bing, " -> board ", board_idx)
+                bingod[board_idx] = calc_bingo(boards[board_idx], mark, bing)
+                latest = calc_bingo(boards[board_idx], mark, bing)
+    return latest
 
 input = """7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
 
@@ -65,5 +96,4 @@ input = """7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,
 with open("input4.txt", "r") as f:
     input = "\n".join(f.readlines())
     print(bingo(*prep_bingo(input)))
-
-# %%
+    print(last_bingo(*prep_bingo(input)))
