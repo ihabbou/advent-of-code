@@ -69,7 +69,6 @@ def last_bingo(bingo: list, boards: list):
                     np.array_equal(lt, np.ones(5))
                     for ln, lt in zip(mark, mark.T)
             ]) > 0:
-                print(bing, " -> board ", board_idx)
                 bingod[board_idx] = calc_bingo(boards[board_idx], mark, bing)
                 latest = calc_bingo(boards[board_idx], mark, bing)
     return latest
