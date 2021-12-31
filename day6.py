@@ -15,28 +15,45 @@ def lanternfish_spawner(state: list, days: int):
         state = state - 1
         newfish = np.ones(len(spawners[0]), dtype=np.int) * 8
         state[spawners] = 6
-        #print(newfish)
         state = np.concatenate([state, newfish])
-        #print(f"spawner = {spawners}")
-        #print(f"After +1 days:\t{state} \t {spawners[0]}")
 
         return state
 
     state = np.array(state)
 
-    print("Initial state: ", state)
+    #print("Initial state: ", state)
     for day in range(days):
         state = tick(state)
-        print(f"After {day+1} days:\t{state}")
     return state
 
 
 # %% Day 6 part 2
+
+from typing import Counter
+
+
+def lanternfish_spawner_dyn(state: list, days: int):
+    fishies = {d: 0 for d in range(9)}
+    fishies = {**fishies, **Counter(state)}
+
+    for day in range(days):
+        spawns = fishies.get(0, 0)
+        for d in fishies.keys():  # lower count for all
+            if d - 1 != -1:
+                fishies[d - 1] = fishies[d]
+        fishies[6] = fishies[6] + spawns  # spawners go to 6
+        fishies[8] = spawns  # new fish
+
+    return fishies
+
 
 input = """3,4,3,1,2""".splitlines()
 
 with open("input6.txt", "r") as f:
     input = f.readlines()
     result = lanternfish_spawner(prep_input(input), 80)
-    print(result)
+    # print(result)
     print(len(result))
+    result = lanternfish_spawner_dyn(prep_input(input), 256)
+    # print(result)
+    print(sum(result.values()))
