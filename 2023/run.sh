@@ -1,2 +1,2 @@
 
-go run day${1}.go
+go run day2.go

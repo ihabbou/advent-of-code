@@ -2,24 +2,26 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func Day1_1() {
+func Day1_2() {
 
-	input := `1abc2
-pqr3stu8vwx
-a1b2c3d4e5f
-treb7uchet`
+	digi := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
 
-	// read a text file into a string
-	inputf, err := os.ReadFile("input1.txt")
-	if err != nil {
-		panic(err)
-	}
-	input = string(inputf)
+	input := `two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen`
+	// inputf, err := os.ReadFile("input1.txt")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// input = string(inputf)
 
 	var numbers []int = []int{}
 	var sumn int = 0
